@@ -23,7 +23,7 @@ const Navbar = () => {
     };
 
     return (
-        <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 shadow-md border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+        <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 transition-colors duration-200">
             <div className="w-full h-1" />
             <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200">
