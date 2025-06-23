@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
 
 const Hero = () => {
     return (
@@ -10,7 +11,7 @@ const Hero = () => {
                 transition={{ duration: 0.6, ease: "easeOut" }}
             >
                 <motion.h2
-                    className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent animate-gradient"
+                    className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.6 }}
@@ -18,14 +19,21 @@ const Hero = () => {
                     Hi, I'm Jefferson Arnado
                 </motion.h2>
 
-                <motion.h3
+                <TypeAnimation
+                    sequence={[
+                        500,
+                        "I'm a Backend Developer.",
+                        2000,
+                        "I'm an API Specialist.",
+                        2000,
+                        "I build scalable apps.",
+                        2000,
+                    ]}
+                    wrapper="h3"
+                    cursor={true}
+                    repeat={Infinity}
                     className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6 font-medium"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.5 }}
-                >
-                    Backend Developer & API Specialist
-                </motion.h3>
+                />
 
                 <motion.p
                     className="text-gray-600 dark:text-gray-400 text-lg md:text-xl mb-8 leading-relaxed max-w-2xl mx-auto"
