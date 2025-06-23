@@ -1,42 +1,88 @@
-import { useState } from "react";
-import { Menu, X } from "lucide-react"; // You can install lucide-react or use any icon lib
+import { useState, useEffect } from "react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isDark, setIsDark] = useState(false);
 
-  return (
-    <header className="fixed top-0 left-0 w-full bg-white z-50 shadow-md border-b border-gray-200">
-      <div className="w-full h-1" />
-      <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-gray-900">Jefferson Arnado</h1>
+    useEffect(() => {
+        const root = window.document.documentElement;
+        if (isDark) {
+            root.classList.add("dark");
+        } else {
+            root.classList.remove("dark");
+        }
+    }, [isDark]);
 
-        {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-6 text-sm md:text-base font-medium">
-          <li><a href="#about" className="hover:text-blue-600 transition-colors duration-200">About</a></li>
-          <li><a href="#projects" className="hover:text-blue-600 transition-colors duration-200">Projects</a></li>
-          <li><a href="#contact" className="hover:text-blue-600 transition-colors duration-200">Contact</a></li>
-        </ul>
+    const toggleDarkMode = () => {
+        setIsDark(!isDark);
+    };
 
-        {/* Hamburger Icon */}
-        <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-gray-900">
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
+    const closeMenu = () => {
+        setIsOpen(false);
+    };
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 px-4 pb-4">
-          <ul className="flex flex-col space-y-4 text-base font-medium">
-            <li><a href="#about" onClick={() => setIsOpen(false)} className="hover:text-blue-600">About</a></li>
-            <li><a href="#projects" onClick={() => setIsOpen(false)} className="hover:text-blue-600">Projects</a></li>
-            <li><a href="#contact" onClick={() => setIsOpen(false)} className="hover:text-blue-600">Contact</a></li>
-          </ul>
-        </div>
-      )}
-    </header>
-  );
+    return (
+        <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 shadow-md border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
+            <div className="w-full h-1" />
+            <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200">
+                    Jefferson Arnado
+                </h1>
+
+                {/* Desktop Menu + Dark Toggle */}
+                <div className="hidden md:flex items-center space-x-6 text-sm md:text-base font-medium text-gray-900 dark:text-gray-100">
+                    <a href="#about" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">About</a>
+                    <a href="#projects" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">Projects</a>
+                    <a href="#contact" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">Contact</a>
+
+                    {/* Dark Mode Toggle (desktop) */}
+                    <button
+                        onClick={toggleDarkMode}
+                        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        aria-label="Toggle dark mode"
+                    >
+                        {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                    </button>
+                </div>
+
+                {/* Hamburger Icon (mobile) */}
+                <div className="md:hidden flex items-center gap-2">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        aria-label="Toggle menu"
+                    >
+                        {isOpen ? <X size={22} /> : <Menu size={22} />}
+                    </button>
+                </div>
+            </nav>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+                <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-4 pb-6 shadow-lg transition-colors duration-200">
+                    <ul className="flex flex-col space-y-4 text-base font-medium pt-4 text-gray-900 dark:text-gray-100">
+                        <li><a href="#about" onClick={closeMenu} className="block py-2 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">About</a></li>
+                        <li><a href="#projects" onClick={closeMenu} className="block py-2 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">Projects</a></li>
+                        <li><a href="#contact" onClick={closeMenu} className="block py-2 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">Contact</a></li>
+                        {/* Dark Mode Toggle (mobile) */}
+                        <li>
+                            <button
+                                onClick={() => {
+                                    toggleDarkMode();
+                                    closeMenu();
+                                }}
+                                className="flex items-center gap-2 p-2 mt-2 w-full rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                                <span>Toggle Theme</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            )}
+        </header>
+    );
 };
 
 export default Navbar;
