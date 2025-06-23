@@ -4,6 +4,7 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDark, setIsDark] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -14,6 +15,14 @@ const Navbar = () => {
         }
     }, [isDark]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const toggleDarkMode = () => {
         setIsDark(!isDark);
     };
@@ -23,8 +32,8 @@ const Navbar = () => {
     };
 
     return (
-        <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 z-50 transition-colors duration-200">
-            <div className="w-full h-1" />
+        <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-white/80 dark:bg-gray-900/80 shadow-sm' : 'bg-white dark:bg-gray-900'}`}>
+            <div className={`w-full h-1 transition-all duration-300 ${scrolled ? 'bg-gray-200 dark:bg-gray-700' : 'bg-transparent'}`} />
             <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white transition-colors duration-200">
                     Jefferson Arnado
@@ -60,7 +69,7 @@ const Navbar = () => {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 px-4 pb-6 shadow-lg transition-colors duration-200">
+                <div className={`md:hidden ${scrolled ? 'bg-white/95 dark:bg-gray-900/95' : 'bg-white dark:bg-gray-900'} border-t border-gray-200 dark:border-gray-700 px-4 pb-6 shadow-lg transition-all duration-200 backdrop-blur-md`}>
                     <ul className="flex flex-col space-y-4 text-base font-medium pt-4 text-gray-900 dark:text-gray-100">
                         <li><a href="#about" onClick={closeMenu} className="block py-2 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">About</a></li>
                         <li><a href="#projects" onClick={closeMenu} className="block py-2 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200">Projects</a></li>
